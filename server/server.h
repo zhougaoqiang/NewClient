@@ -10,8 +10,9 @@ using namespace std;
 #pragma comment (lib, "WS2_32")  //链接到WS2_32.lib
 #pragma warning(disable:4996)  //关闭4996警告
 
-#define SERVER_IP "127.0.0.1"  //默认服务端IP地址
+#define SERVER_IP "192.168.1.140"  //默认服务端IP地址
 #define SERVER_PORT 8888  //服务器端口号
+#define PASSWORD "ABCDEFG"
 
 
 class server
@@ -20,11 +21,15 @@ private:
 	int listener;//监听套接字
 	sockaddr_in serverAddress; //IPV4地址方式
 	vector<int> socnum;  //存放创建的套接字
+	char username[100];
+	char password[100];
+
 
 public:
 	server();
 	void init();
 	void process();
+	bool passwordValidation(int Clientfd, int i);
 };
 
 server::server()
@@ -150,7 +155,19 @@ void server::process()
 						//添加用户，服务器上显示消息，并通知用户链接成功
 						socnum.push_back(clientfd);
 						cout << "链接成功" << endl;
-						
+
+
+						bool loginAcceeptence = passwordValidation(clientfd, i);
+						if (loginAcceeptence == true)
+							cout << "登陆成功\n";
+						else
+						{
+							//FD_CLR(socnum[i], &fds);  //在列表中删除
+							//socnum.erase(socnum.begin() + i); //在vector数组中删除
+							cout << "禁止登陆\n";
+						}
+
+
 						char ID[1024];
 						sprintf(ID, "You ID is: %d", clientfd);
 						char buf[30] = "Welcome to yshn's chatroom\n";
@@ -192,4 +209,44 @@ void server::process()
 }
 
 
+bool server::passwordValidation(int Clientfd, int i) {
+	char username[] = "zhougaoqiang";
+	char RecvUsername[100];
+	char password[] = "123456";
+	char failed[] = "failed";
+	char success[] = "passed";
 
+	memset(RecvUsername, '\0', sizeof(RecvUsername));
+
+	int size = 0;
+	while (size <= 0)
+	{
+		size = recv(Clientfd, RecvUsername, sizeof(RecvUsername), 0);
+		cout << size << endl;
+	}
+
+		
+		cout << strlen(RecvUsername)<<endl;
+
+		for (int i = 0; i < strlen(RecvUsername); i++)
+		{
+			cout << RecvUsername[i];
+		}
+
+		cout << endl;
+
+
+		int size2 = strcmp(username, RecvUsername);
+		cout << size2 << endl;
+		if (size2 == 0)
+		{
+			send(Clientfd, success, strlen(success), 0);
+			return true;
+		}
+		else
+		{
+			send(Clientfd, failed, strlen(failed), 0);
+			return false;
+		}
+
+}

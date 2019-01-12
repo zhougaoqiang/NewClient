@@ -1,4 +1,5 @@
 ﻿  server.cpp
-c:\users\zhou&wan\desktop\chat\server\server\server.h(176): warning C4474: printf: 格式字符串中传递的参数太多
-  c:\users\zhou&wan\desktop\chat\server\server\server.h(176): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
-  server.vcxproj -> C:\Users\Zhou&Wan\Desktop\chat\server\Debug\server.exe
+c:\users\administrator\desktop\chatserver\newclient\server\server.h(193): warning C4474: printf: 格式字符串中传递的参数太多
+  c:\users\administrator\desktop\chatserver\newclient\server\server.h(193): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
+c:\users\administrator\desktop\chatserver\newclient\server\server.h(231): warning C4018: “<”: 有符号/无符号不匹配
+  server.vcxproj -> C:\Users\Administrator\Desktop\chatServer\NewClient\Debug\server.exe

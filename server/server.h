@@ -12,6 +12,7 @@ using namespace std;
 
 #define SERVER_IP "127.0.0.1"  //默认服务端IP地址
 #define SERVER_PORT 8888  //服务器端口号
+#define PASSWORD "ABCDEFG"
 
 
 class server
@@ -20,11 +21,15 @@ private:
 	int listener;//监听套接字
 	sockaddr_in serverAddress; //IPV4地址方式
 	vector<int> socnum;  //存放创建的套接字
+	char username[100];
+	char password[100];
+
 
 public:
 	server();
 	void init();
 	void process();
+	bool passwordValidation(vector<int> socnum, int i);
 };
 
 server::server()
@@ -150,7 +155,19 @@ void server::process()
 						//添加用户，服务器上显示消息，并通知用户链接成功
 						socnum.push_back(clientfd);
 						cout << "链接成功" << endl;
-						
+
+
+						bool loginAcceeptence = passwordValidation(socnum, i);
+						if (loginAcceeptence == true)
+							cout << "登陆成功\n";
+						else
+						{
+							FD_CLR(socnum[i], &fds);  //在列表中删除
+							socnum.erase(socnum.begin() + i); //在vector数组中删除
+							cout << "禁止登陆\n";
+						}
+
+
 						char ID[1024];
 						sprintf(ID, "You ID is: %d", clientfd);
 						char buf[30] = "Welcome to yshn's chatroom\n";
@@ -192,4 +209,12 @@ void server::process()
 }
 
 
-
+bool server::passwordValidation(vector<int> socnum, int i) {
+	char usernamePassword[] = "zhougaoqiang123456";
+	char recvBUFF[200];
+	int size = recv(socnum[i], recvBUFF, strlen(recvBUFF) - 1, 0);
+	if (usernamePassword == recvBUFF)
+		return true;
+	else
+		return false;
+}

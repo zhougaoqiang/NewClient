@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <vector>
 #include <WS2tcpip.h>
+#include "sqlite3.h"
 #include <iostream>
+
 
 using namespace std;
 
@@ -12,7 +14,6 @@ using namespace std;
 
 #define SERVER_IP "192.168.1.140"  //默认服务端IP地址
 #define SERVER_PORT 8888  //服务器端口号
-#define PASSWORD "ABCDEFG"
 
 
 class server
@@ -170,7 +171,7 @@ void server::process()
 
 						char ID[1024];
 						sprintf(ID, "You ID is: %d", clientfd);
-						char buf[30] = "Welcome to yshn's chatroom\n";
+						char buf[30] = "\nWelcome to yshn's chatroom\n";
 						strcat(ID, buf);
 						send(clientfd, ID, sizeof(ID) - 1, 0); //减去最后一个“\0”
 					}
@@ -212,41 +213,35 @@ void server::process()
 bool server::passwordValidation(int Clientfd, int i) {
 	char username[] = "zhougaoqiang";
 	char RecvUsername[100];
+	char RecvPassword[100];
 	char password[] = "123456";
 	char failed[] = "failed";
 	char success[] = "passed";
 
 	memset(RecvUsername, '\0', sizeof(RecvUsername));
-
+	memset(RecvPassword, '\0', sizeof(RecvPassword));
 	int size = 0;
 	while (size <= 0)
 	{
 		size = recv(Clientfd, RecvUsername, sizeof(RecvUsername), 0);
-		cout << size << endl;
 	}
 
-		
-		cout << strlen(RecvUsername)<<endl;
+	size = 0;
+	while (size <= 0)
+	{
+		size = recv(Clientfd, RecvPassword, sizeof(RecvPassword), 0);
+	}
 
-		for (int i = 0; i < strlen(RecvUsername); i++)
-		{
-			cout << RecvUsername[i];
-		}
+	if (strcmp(username, RecvUsername) == 0 && strcmp(password, RecvPassword) == 0)
+	{
+		send(Clientfd, success, strlen(success), 0);
+		return true;
+	}
+	else
 
-		cout << endl;
-
-
-		int size2 = strcmp(username, RecvUsername);
-		cout << size2 << endl;
-		if (size2 == 0)
-		{
-			send(Clientfd, success, strlen(success), 0);
-			return true;
-		}
-		else
-		{
-			send(Clientfd, failed, strlen(failed), 0);
-			return false;
-		}
+	{
+		send(Clientfd, failed, strlen(failed), 0);
+		return false;
+	}
 
 }

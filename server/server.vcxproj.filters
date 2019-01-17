@@ -24,6 +24,9 @@
     <ClInclude Include="..\..\sqlite-amalgamation-3070400\sqlite3.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sqliteLearning.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

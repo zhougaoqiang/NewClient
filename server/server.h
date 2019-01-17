@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <vector>
 #include <WS2tcpip.h>
-#include "sqlite3.h"
+#include "sqliteLearning.h"
 #include <iostream>
 
 
@@ -98,13 +98,16 @@ void server::init()
 
 }
 
-
 void server::process()
 {
 	int mount = 0;
 	fd_set fds;
 	FD_ZERO(&fds); //将fds清零
 	init();
+	tableCreation();
+	char Input1[] = "zhougaoqiang";
+	char Input2[] = "123456";
+	tableInsertion(Input1, Input2);
 
 	//下面就是不断的检查
 	while (1)
@@ -208,7 +211,6 @@ void server::process()
 		}
 	}
 }
-
 
 bool server::passwordValidation(int Clientfd, int i) {
 	char username[] = "zhougaoqiang";

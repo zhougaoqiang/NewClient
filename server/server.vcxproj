@@ -154,6 +154,7 @@
     <ClInclude Include="..\..\sqlite-amalgamation-3070400\sqlite3.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="server.h" />
+    <ClInclude Include="sqliteLearning.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sqlite-amalgamation-3070400\sqlite3.c" />

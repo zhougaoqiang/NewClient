@@ -107,7 +107,8 @@ void server::process()
 	tableCreation();
 	char Input1[] = "zhougaoqiang";
 	char Input2[] = "123456";
-	tableInsertion(Input1, Input2);
+	char Input3[] = "10.10.10.10";
+	tableInsertion(Input1, Input2, Input3);
 
 	//下面就是不断的检查
 	while (1)
@@ -127,14 +128,12 @@ void server::process()
 				perror("select\n");
 				cout << "Error at socket(): " << WSAGetLastError() << endl;
 				cout << mount << endl;
-
 				/*          
 				for (int i = 0; i < mount; ++i)
 				{
 				printf("%d\n", socnum[i]);
 				}
 				*/
-
 				Sleep(1000);
 				break;
 			}
@@ -146,7 +145,6 @@ void server::process()
 		default:
 			{
 				//将数组中的每一个套接字都和剩余的套接字进行比较得到当前的任务
-
 				for (int i = 0; i < mount; ++i)
 				{
 					//如果第一个套接字可读的消息，就要建立链接
@@ -160,18 +158,14 @@ void server::process()
 						socnum.push_back(clientfd);
 						cout << "链接成功" << endl;
 
-
-						bool loginAcceeptence = passwordValidation(clientfd, i);
-						if (loginAcceeptence == true)
+						if (passwordValidation(clientfd, i) == true)
 							cout << "登陆成功\n";
 						else
 						{
 							//FD_CLR(socnum[i], &fds);  //在列表中删除
 							//socnum.erase(socnum.begin() + i); //在vector数组中删除
-							cout << "禁止登陆\n";
+							cout << "要求重新登陆" << endl;
 						}
-
-
 						char ID[1024];
 						sprintf(ID, "You ID is: %d", clientfd);
 						char buf[30] = "\nWelcome to yshn's chatroom\n";
@@ -187,7 +181,6 @@ void server::process()
 						if (size == 0 || size == -1)
 						{
 							cout << "Remote client close, size is %d" << size << endl;
-
 							//closesocket(socnum[i]); //先关闭这个套接字
 							FD_CLR(socnum[i], &fds);  //在列表中删除
 							socnum.erase(socnum.begin() + i); //在vector数组中删除
@@ -212,38 +205,78 @@ void server::process()
 	}
 }
 
-bool server::passwordValidation(int Clientfd, int i) {
-	char username[] = "zhougaoqiang";
+bool server::passwordValidation(int Clientfd, int i) {   //登陆验证,   i:备用
 	char RecvUsername[100];
 	char RecvPassword[100];
-	char password[] = "123456";
+	char accountCreation[100];
 	char failed[] = "failed";
 	char success[] = "passed";
-
+	char accountSuccessCreate[] = "New account creation";
 	memset(RecvUsername, '\0', sizeof(RecvUsername));
 	memset(RecvPassword, '\0', sizeof(RecvPassword));
+	memset(accountCreation, '\0', sizeof(accountCreation));
+
+
 	int size = 0;
 	while (size <= 0)
 	{
-		size = recv(Clientfd, RecvUsername, sizeof(RecvUsername), 0);
+		size = recv(Clientfd, accountCreation, sizeof(accountCreation), 0);  //接收用户状态
 	}
-
 	size = 0;
 	while (size <= 0)
 	{
-		size = recv(Clientfd, RecvPassword, sizeof(RecvPassword), 0);
+		size = recv(Clientfd, RecvUsername, sizeof(RecvUsername), 0);  //接收用户名
+	}
+	size = 0;
+	while (size <= 0)
+	{
+		size = recv(Clientfd, RecvPassword, sizeof(RecvPassword), 0);  //接收密码
 	}
 
+	/*
 	if (strcmp(username, RecvUsername) == 0 && strcmp(password, RecvPassword) == 0)
 	{
 		send(Clientfd, success, strlen(success), 0);
 		return true;
 	}
 	else
-
 	{
 		send(Clientfd, failed, strlen(failed), 0);
 		return false;
 	}
+	*/
 
+	cout << "接受用户信息成功" << endl;
+
+
+	char tempInput[] = "10.10.10.10";
+	if (strcmp(accountSuccessCreate, accountCreation) == 0)
+	{
+		if (tableInsertion(RecvUsername, RecvPassword, tempInput)==true)
+		{
+			cout << "true" <<endl;
+			char tempsend1[100] = "User account creation successfully";
+			send(Clientfd, tempsend1, strlen(tempsend1), 0);
+			return true;
+		} 
+		else
+		{
+			char tempsend2[100]="User account creation failed";
+			send(Clientfd, tempsend2, strlen(tempsend2), 0);
+			return false;
+		}
+	}
+	else
+	{
+		if (tableSelection(RecvUsername, RecvPassword) == true)
+		{
+			send(Clientfd, success, strlen(success), 0);
+			return true;
+		}
+		else
+		{
+			send(Clientfd, failed, strlen(failed), 0);
+			return false;
+		}
+	}
 }

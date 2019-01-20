@@ -1,4 +1,44 @@
 ﻿  server.cpp
-c:\users\administrator\desktop\chatserver\newclient\server\server.h(190): warning C4474: printf: 格式字符串中传递的参数太多
-  c:\users\administrator\desktop\chatserver\newclient\server\server.h(190): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
-  server.vcxproj -> C:\Users\Administrator\Desktop\chatServer\NewClient\Debug\server.exe
+c:\users\administrator\desktop\chatserver\newclient\server\server.h(197): warning C4474: printf: 格式字符串中传递的参数太多
+  c:\users\administrator\desktop\chatserver\newclient\server\server.h(197): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
+c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(238): error C2672: “std::invoke”: 未找到匹配的重载函数
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(246): note: 参见对正在编译的函数 模板 实例化“void std::_LaunchPad<_Target>::_Execute<0>(std::tuple<bool> &,std::integer_sequence<unsigned int,0>)”的引用
+          with
+          [
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(245): note: 参见对正在编译的函数 模板 实例化“void std::_LaunchPad<_Target>::_Execute<0>(std::tuple<bool> &,std::integer_sequence<unsigned int,0>)”的引用
+          with
+          [
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(242): note: 编译 类 模板 成员函数 "void std::_LaunchPad<_Target>::_Run(std::_LaunchPad<_Target> *) noexcept" 时
+          with
+          [
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(230): note: 参见对正在编译的函数 模板 实例化“void std::_LaunchPad<_Target>::_Run(std::_LaunchPad<_Target> *) noexcept”的引用
+          with
+          [
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(257): note: 参见对正在编译的 类 模板 实例化 "std::_LaunchPad<_Target>" 的引用
+          with
+          [
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thread(46): note: 参见对正在编译的函数 模板 实例化“void std::_Launch<std::unique_ptr<std::tuple<bool>,std::default_delete<_Ty>>>(_Thrd_t *,_Target &&)”的引用
+          with
+          [
+              _Ty=std::tuple<bool>,
+              _Target=std::unique_ptr<std::tuple<bool>,std::default_delete<std::tuple<bool>>>
+          ]
+  c:\users\administrator\desktop\chatserver\newclient\server\server.h(162): note: 参见对正在编译的函数 模板 实例化“std::thread::thread<bool,,void>(_Fn &&)”的引用
+          with
+          [
+              _Fn=bool
+          ]
+c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(237): error C2893: 未能使函数模板“unknown-type std::invoke(_Callable &&,_Types &&...) noexcept(<expr>)”专用化
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(237): note: 用下列模板参数:
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(237): note: “_Callable=bool”
+  c:\program files (x86)\microsoft visual studio\2017\professional\vc\tools\msvc\14.16.27023\include\thr\xthread(237): note: “_Types={}”

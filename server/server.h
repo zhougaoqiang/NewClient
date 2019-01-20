@@ -5,6 +5,7 @@
 #include <WS2tcpip.h>
 #include "sqliteLearning.h"
 #include <iostream>
+#include <thread>
 
 
 using namespace std;
@@ -81,8 +82,8 @@ void server::init()
 	//  uint32_t       s_addr;     /* address in network byte order */
 	//}
 	/////////////////////////////////////////////////////////////////
-
-	if (bind(listener, (struct sockaddr *)&serverAddress, sizeof(serverAddress))<0)
+  
+	if (::bind(listener, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0)//::bind由于是在匿名命名空间里（添加include <thread>之后）
 	{
 		perror("bind error");
 		exit(1);
@@ -158,14 +159,22 @@ void server::process()
 						socnum.push_back(clientfd);
 						cout << "链接成功" << endl;
 
+						// thread test1(passwordValidation(clientfd, i));
+						
 						if (passwordValidation(clientfd, i) == true)
+						{
 							cout << "登陆成功\n";
+						}	
 						else
 						{
 							//FD_CLR(socnum[i], &fds);  //在列表中删除
 							//socnum.erase(socnum.begin() + i); //在vector数组中删除
 							cout << "要求重新登陆" << endl;
 						}
+						
+						// test1.detach();
+
+
 						char ID[1024];
 						sprintf(ID, "You ID is: %d", clientfd);
 						char buf[30] = "\nWelcome to yshn's chatroom\n";
